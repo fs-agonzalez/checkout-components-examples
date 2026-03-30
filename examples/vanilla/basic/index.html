@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FastSpring SDK — Vanilla Example</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen py-8">
+    <div class="max-w-6xl mx-auto px-4">
+        <h1 class="text-3xl font-bold text-gray-900 mb-8 text-center">FastSpring Checkout — Vanilla JS</h1>
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div class="flex gap-6 items-start">
+                <!-- Session Input + Checkout Button -->
+                <div class="flex-shrink-0" style="width: 450px;">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Enter Session ID and Checkout</h2>
+
+                    <div class="mb-4">
+                        <label for="session-id-input" class="block text-sm font-medium text-gray-700 mb-2">Session ID:</label>
+                        <input
+                            type="text"
+                            id="session-id-input"
+                            value=""
+                            placeholder="Enter session ID"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        />
+                    </div>
+
+                    <button
+                        onclick="checkout()"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    >
+                        Checkout
+                    </button>
+                </div>
+
+                <!-- Payment Components -->
+                <div class="flex-1">
+                    <div id="payment-form-container">
+                        <div id="card-element" class="mb-6"></div>
+                        <div id="pay-button-element" class="mb-6 p-4 rounded-lg shadow-sm mx-auto"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FastSpring SDK (IIFE build) -->
+    <!-- TODO: Replace with CDN URL once published: https://unpkg.com/@fastspring/checkout-sdk/dist/fastspring-sdk.iife.js -->
+    <script src="./dist/fastspring-sdk.iife.js"></script>
+
+    <script>
+        /// <reference types="@fastspring/checkout-sdk" />
+
+        const sdk = FastSpring.init({
+            checkoutUrl: 'https://mycompany.onfastspring.com/my-store',
+            // env: 'qa2',      // omit for production
+            // debug: true,     // show built-in success/failure dialogs during testing
+            globalStyles: {
+                // color: '#1e293b',
+                // fontFamily: 'Inter, sans-serif',
+                // fontSize: '14px',
+            },
+            onOrderCompletion: (data) => {
+                console.log('Order completed!', data);
+            },
+            onPaymentError: (error) => {
+                console.error('Payment failed:', error);
+            },
+            onSessionData: (data) => {
+                console.log('Session data ready:', data);
+            },
+        });
+
+        // Pre-fill the session ID input with any session ID stored from a previous visit
+        const storedSessionId = sdk.getStoredSessionId();
+        if (storedSessionId) {
+            document.getElementById('session-id-input').value = storedSessionId;
+        }
+
+        // Mount card component
+        const cardComponent = sdk.components.create('fsc-card', {
+            // labelMode: 'floating',
+            // hideCardHeader: true,
+            style: {
+                state: {
+                    default: {
+                        card: {
+                            backgroundColor: '#fff',
+                            borderColor: '#e2e8f0',
+                            borderRadius: '8px',
+                            borderWidth: '1px',
+                        },
+                        input: {
+                            borderColor: '#cbd5e1',
+                            borderRadius: '6px',
+                            fontSize: '14px',
+                            fontFamily: 'Inter, sans-serif',
+                            color: '#1e293b',
+                        },
+                    },
+                    hover: {
+                        card: {
+                            borderColor: '#94a3b8',
+                        },
+                    },
+                    error: {
+                        card: { borderColor: '#ef4444' },
+                        input: { borderColor: '#ef4444', color: '#b91c1c' },
+                    },
+                },
+            },
+        });
+        cardComponent.mount('#card-element');
+
+        // Mount pay button component
+        const payButtonComponent = sdk.components.create('fsc-pay-button', {
+            style: {
+                state: {
+                    default: {
+                        button: {
+                            borderRadius: '8px',
+                            padding: '14px 28px',
+                            fontFamily: 'Inter, sans-serif',
+                        },
+                    },
+                    hover: {
+                        button: {
+                            opacity: '0.9',
+                        },
+                    },
+                },
+            },
+        });
+        payButtonComponent.mount('#pay-button-element');
+
+        function checkout() {
+            const sessionId = document.getElementById('session-id-input').value.trim();
+
+            if (!sessionId) {
+                alert('Please enter a session ID');
+                return;
+            }
+
+            sdk.checkout(sessionId, {
+                onSuccess: () => {
+                    console.log('Session loaded successfully:', sessionId);
+                },
+                onError: (error) => {
+                    console.error('Session load failed:', error);
+                },
+            });
+        }
+    </script>
+</body>
+</html>

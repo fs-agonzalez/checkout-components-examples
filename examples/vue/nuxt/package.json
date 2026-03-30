@@ -1,0 +1,14 @@
+{
+  "name": "fastspring-example-nuxt",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "nuxt dev --port 5173",
+    "build": "nuxt build",
+    "preview": "nuxt preview"
+  },
+  "dependencies": {
+    "@fastspring/checkout-sdk": "^0.0.3-beta.1",
+    "nuxt": "^3.16.0"
+  }
+}

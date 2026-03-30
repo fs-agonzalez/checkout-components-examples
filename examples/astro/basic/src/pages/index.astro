@@ -1,0 +1,65 @@
+---
+// Server-rendered layout — no SDK import here
+---
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>FastSpring — Astro Example</title>
+  </head>
+  <body>
+    <div style="max-width: 800px; margin: 40px auto; padding: 0 16px">
+      <h1>FastSpring Checkout — Astro</h1>
+
+      <div style="margin-bottom: 16px">
+        <label for="session-id">Session ID</label><br />
+        <input
+          id="session-id"
+          type="text"
+          placeholder="Enter session ID"
+          style="width: 320px; padding: 8px 12px; margin-top: 4px"
+        />
+      </div>
+
+      <button id="checkout-btn">Checkout</button>
+
+      <div id="card-element" style="margin-top: 24px"></div>
+      <div id="pay-button-element" style="margin-top: 16px"></div>
+    </div>
+
+    <!--
+      The SDK must run client-side only.
+      Astro renders pages on the server, so we use a <script> tag
+      which Astro inlines and bundles for the browser.
+    -->
+    <script>
+      import FastSpring from '@fastspring/checkout-sdk'
+
+      const sdk = FastSpring.init({
+        checkoutUrl: 'https://mycompany.onfastspring.com/my-store',
+        // env: 'qa2',
+        // debug: true,
+        onOrderCompletion: (data: unknown) => console.log('Order completed!', data),
+        onPaymentError: (error: unknown) => console.error('Payment failed:', error),
+        onSessionData: (data: unknown) => console.log('Session data:', data),
+      })
+
+      const input = document.getElementById('session-id') as HTMLInputElement
+      const stored = sdk.getStoredSessionId()
+      if (stored) input.value = stored
+
+      sdk.components.create('fsc-card').mount('#card-element')
+      sdk.components.create('fsc-pay-button').mount('#pay-button-element')
+
+      document.getElementById('checkout-btn')?.addEventListener('click', () => {
+        const sessionId = input.value.trim()
+        if (!sessionId) return alert('Please enter a session ID')
+        sdk.checkout(sessionId, {
+          onSuccess: () => console.log('Session loaded:', sessionId),
+          onError: (err: unknown) => console.error('Session load failed:', err),
+        })
+      })
+    </script>
+  </body>
+</html>
