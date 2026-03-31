@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "checkJs": true,
+    "strict": false
+  },
+  "files": [
+    "./types/fastspring-sdk.iife.d.ts"
+  ],
+  "include": ["*.html", "*.js"]
+}

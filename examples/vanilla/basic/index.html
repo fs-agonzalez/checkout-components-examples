@@ -44,15 +44,16 @@
     </div>
 
     <!-- FastSpring SDK (IIFE build) -->
-    <!-- TODO: Replace with CDN URL once published: https://unpkg.com/@fastspring/checkout-sdk/dist/fastspring-sdk.iife.js -->
-    <script src="./dist/fastspring-sdk.iife.js"></script>
+    <!-- TODO: Replace with CDN URLs once published:
+         Runtime:  https://d1f8f9xcsvx3ha.cloudfront.net/checkout-sdk/0.0.3-beta.1/fastspring-sdk.iife.js / https://cdn.onfastspring.com/checkout-sdk/0.0.3-beta.1/fastspring-sdk.iife.js
+         Types:    https://d1f8f9xcsvx3ha.cloudfront.net/checkout-sdk/0.0.3-beta.1/fastspring-sdk.iife.d.ts
+         Download fastspring-sdk.iife.d.ts next to this file to get VS Code intellisense. -->
+    <script src="https://d1f8f9xcsvx3ha.cloudfront.net/checkout-sdk/0.0.3-beta.1/fastspring-sdk.iife.js"></script>
 
     <script>
-        /// <reference types="@fastspring/checkout-sdk" />
-
         const sdk = FastSpring.init({
-            checkoutUrl: 'https://mycompany.onfastspring.com/my-store',
-            // env: 'qa2',      // omit for production
+            checkoutUrl: 'https://sureshcompany.qa2.onfastspring.com/popup-AAA-suresh-test',
+             env: 'qa2',      // omit for production
             // debug: true,     // show built-in success/failure dialogs during testing
             globalStyles: {
                 // color: '#1e293b',

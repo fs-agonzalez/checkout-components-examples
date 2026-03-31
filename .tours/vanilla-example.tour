@@ -1,0 +1,61 @@
+{
+  "$schema": "https://aka.ms/codetour-schema",
+  "title": "FastSpring Checkout — Vanilla Example Walkthrough",
+  "description": "A guided tour for the test team explaining how this example works, what to look for, and what to verify.",
+  "steps": [
+    {
+      "file": "examples/vanilla/basic/index.html",
+      "line": 1,
+      "title": "Welcome — What This Repo Is",
+      "description": "## checkout-components-examples\n\nThis repo contains **standalone example sites** that demonstrate how merchant developers would integrate FastSpring's checkout SDK and payment components.\n\nEach example under `examples/` covers a different framework (Vanilla, React, Vue, Angular, Svelte, Astro).\n\n**Your job as a tester:** open an example, run it, enter a session ID, and verify the payment flow works end-to-end."
+    },
+    {
+      "file": "examples/vanilla/basic/index.html",
+      "line": 48,
+      "title": "Step 1 — The SDK Script Tag",
+      "description": "## Loading the SDK\n\nThis `<script>` tag loads the FastSpring SDK onto the page. It exposes a global `FastSpring` object.\n\n**Currently:** loads from a local `./dist/` build (for internal testing).\n\n**When published:** this will point to a CDN URL:\n```\nhttps://unpkg.com/@fastspring/checkout-sdk/dist/fastspring-sdk.iife.js\n```\n\n✅ **Verify:** No `404` errors in the browser Network tab for this script."
+    },
+    {
+      "file": "examples/vanilla/basic/index.html",
+      "line": 52,
+      "title": "Step 2 — Initialising the SDK",
+      "description": "## FastSpring.init(config)\n\nThis is where the SDK is configured. Key things to check:\n\n- `checkoutUrl` — points to the FastSpring store. Change this to the store you're testing against.\n- `env: 'qa2'` — uncommenting this targets the QA2 environment instead of production.\n- `debug: true` — uncomment to get built-in success/failure dialogs on the page (useful during testing).\n\n**Callbacks fired during checkout:**\n\n| Callback | When it fires |\n|---|---|\n| `onSessionData` | Session data is loaded from the server |\n| `onOrderCompletion` | Payment succeeds |\n| `onPaymentError` | Payment fails or is declined |\n\n✅ **Verify:** Open the browser console. Each callback logs to the console — confirm the right callback fires at the right time."
+    },
+    {
+      "file": "examples/vanilla/basic/index.html",
+      "line": 75,
+      "title": "Step 3 — Restoring a Previous Session",
+      "description": "## getStoredSessionId()\n\nIf a session ID was previously loaded in this browser, the SDK saves it in `localStorage`. This line reads it back and pre-fills the input field — so the tester doesn't have to re-enter it on page refresh.\n\n✅ **Verify:**\n1. Enter a session ID and click Checkout.\n2. Refresh the page.\n3. The session ID input should be pre-filled automatically."
+    },
+    {
+      "file": "examples/vanilla/basic/index.html",
+      "line": 81,
+      "title": "Step 4 — Mounting the Card Component",
+      "description": "## sdk.components.create('fsc-card')\n\nThis creates the **card payment form** component and injects it into the `#card-element` div on the page.\n\nThe `style` object controls visual appearance — card border, input colours, error state styling.\n\n✅ **Verify:**\n1. The card form renders (card number, expiry, CVV fields are visible).\n2. Hovering over the card changes its border colour (hover state).\n3. Entering invalid card data shows inline error styling (red border on inputs)."
+    },
+    {
+      "file": "examples/vanilla/basic/index.html",
+      "line": 107,
+      "title": "Step 5 — Mounting the Pay Button",
+      "description": "## sdk.components.create('fsc-pay-button')\n\nThis creates the **Pay button** component and injects it into `#pay-button-element`.\n\nThe button handles submitting the payment — clicking it triggers the payment processing flow.\n\n✅ **Verify:**\n1. The Pay button renders below the card form.\n2. Hovering changes its opacity (hover style applied).\n3. Clicking without filling card details shows validation errors."
+    },
+    {
+      "file": "examples/vanilla/basic/index.html",
+      "line": 122,
+      "title": "Step 6 — The Checkout Function",
+      "description": "## sdk.checkout(sessionId, callbacks)\n\nThis is called when the user clicks the **Checkout** button at the top of the page.\n\nIt loads the session from the FastSpring server using the `sessionId` entered in the input field.\n\n`onSuccess` fires when the session is loaded and the payment form is ready to accept a card.\n`onError` fires if the session ID is invalid or the network request fails.\n\n✅ **Verify:**\n1. Enter a valid session ID and click Checkout — the console should log `'Session loaded successfully: <id>'`.\n2. Enter an invalid session ID — the console should log an error.\n3. Leave the input blank and click — an alert should appear."
+    },
+    {
+      "file": "examples/vanilla/basic/index.html",
+      "line": 37,
+      "title": "Step 7 — Component Mount Points",
+      "description": "## DOM mount targets\n\nThe card and pay button components are injected into these two empty `<div>` elements:\n\n- `#card-element` → `fsc-card` renders here\n- `#pay-button-element` → `fsc-pay-button` renders here\n\nThe SDK creates an `<iframe>` inside each div, which renders the secure payment UI.\n\n✅ **Verify:** Inspect the DOM — each div should contain an `<iframe>` after the page loads."
+    },
+    {
+      "file": "examples/vanilla/basic/index.html",
+      "line": 1,
+      "title": "Step 8 — What to Test End-to-End",
+      "description": "## End-to-End Test Checklist\n\n**Setup:**\n1. Run the example: `cd examples/vanilla/basic && npx http-server . -p 5173`\n2. Open `http://localhost:5173` in a browser\n3. Open browser DevTools → Console + Network tabs\n\n**Happy path:**\n- [ ] Card form renders with correct styling\n- [ ] Pay button renders\n- [ ] Enter a valid session ID → click Checkout → console logs `Session loaded`\n- [ ] `onSessionData` callback fires and logs session data\n- [ ] Fill card with test card number → click Pay → `onOrderCompletion` fires\n- [ ] Session ID is persisted in `localStorage` and restored on refresh\n\n**Error path:**\n- [ ] Blank session ID → alert shown\n- [ ] Invalid session ID → `onError` fires, no crash\n- [ ] Invalid card → `onPaymentError` fires, error shown inline\n- [ ] 3DS challenge → 3DS iframe appears → after completing, `onOrderCompletion` fires\n\n**Network:**\n- [ ] No CSP errors in console\n- [ ] No 404s for SDK script"
+    }
+  ]
+}
