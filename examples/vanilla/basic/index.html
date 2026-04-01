@@ -48,12 +48,27 @@
          Runtime:  https://d1f8f9xcsvx3ha.cloudfront.net/checkout-sdk/0.0.3-beta.1/fastspring-sdk.iife.js / https://cdn.onfastspring.com/checkout-sdk/0.0.3-beta.1/fastspring-sdk.iife.js
          Types:    https://d1f8f9xcsvx3ha.cloudfront.net/checkout-sdk/0.0.3-beta.1/fastspring-sdk.iife.d.ts
          Download fastspring-sdk.iife.d.ts next to this file to get VS Code intellisense. -->
+    <!-- <script src="http://localhost:5173/dist/fastspring-sdk.iife.js"></script> -->
+
+
+
+    <!--
+     ** Step 1 - Include script ** 
+     -->
     <script src="https://d1f8f9xcsvx3ha.cloudfront.net/checkout-sdk/0.0.3-beta.1/fastspring-sdk.iife.js"></script>
 
+
+    <!--
+     ** Step 2 - Call Init ** 
+     -->
     <script>
         const sdk = FastSpring.init({
+            //checkoutUrl: 'https://sureshcompany.qa2.onfastspring.com/popup-AAA-suresh-test',
+            //checkoutUrl: 'https://localhost:8443/bm-store/suresh/popup-AATestOne',
+            //env: 'local',
             checkoutUrl: 'https://sureshcompany.qa2.onfastspring.com/popup-AAA-suresh-test',
-             env: 'qa2',      // omit for production
+            env:"qa2", //optional --
+             //env: 'qa2',      // omit for production
             // debug: true,     // show built-in success/failure dialogs during testing
             globalStyles: {
                 // color: '#1e293b',
@@ -77,18 +92,18 @@
             document.getElementById('session-id-input').value = storedSessionId;
         }
 
-        // Mount card component
+        
+        //
+        // ** Step 3 - Create and Mount card component ** 
+        //
         const cardComponent = sdk.components.create('fsc-card', {
-            // labelMode: 'floating',
-            // hideCardHeader: true,
             style: {
                 state: {
                     default: {
                         card: {
                             backgroundColor: '#fff',
-                            borderColor: '#e2e8f0',
-                            borderRadius: '8px',
-                            borderWidth: '1px',
+                            borderColor: 'blue',
+                            borderRadius: '8px'
                         },
                         input: {
                             borderColor: '#cbd5e1',
@@ -112,7 +127,11 @@
         });
         cardComponent.mount('#card-element');
 
-        // Mount pay button component
+
+        //
+        // ** Step 4 - Create and Mount Pay button component ** 
+        //
+
         const payButtonComponent = sdk.components.create('fsc-pay-button', {
             style: {
                 state: {
@@ -132,6 +151,7 @@
             },
         });
         payButtonComponent.mount('#pay-button-element');
+
 
         function checkout() {
             const sessionId = document.getElementById('session-id-input').value.trim();
