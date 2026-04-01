@@ -19,6 +19,17 @@ Example sites demonstrating integration of `@fastspring/checkout-sdk` and FastSp
 
 ---
 
+## Prerequisites
+
+- **Node.js v18+** — [https://nodejs.org/en/download](https://nodejs.org/en/download)
+  All examples (including the vanilla one via `npx`) require Node.js to be installed.
+  Verify your version:
+  ```bash
+  node -v   # should print v18.x.x or higher
+  ```
+
+---
+
 ## Running an Example
 
 ### Vanilla
@@ -30,12 +41,6 @@ cd examples/vanilla/basic
 npx http-server . -p 5173
 # Open http://localhost:5173
 ```
-
-> **Note:** The vanilla example loads the SDK from a local `./dist/` build.
-> Replace the `<script src="...">` with the CDN URL once published:
-> ```html
-> <script src="https://unpkg.com/@fastspring/checkout-sdk/dist/fastspring-sdk.iife.js"></script>
-> ```
 
 ### All other examples (React, Vue, Angular, Svelte, Astro, Next.js, Nuxt)
 
