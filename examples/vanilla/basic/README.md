@@ -8,7 +8,7 @@ A step-by-step guide for integrating FastSpring Checkout into a plain HTML/JavaS
 
 The integration has five steps:
 
-1. Include the SDK from CDN
+1. Include the SDK
 2. Initialize the SDK (`FastSpring.init`)
 3. Create and mount the **Card** component
 4. Create and mount the **Pay Button** component
