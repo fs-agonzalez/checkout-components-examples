@@ -141,7 +141,7 @@ const cardComponent = sdk.components.create('fsc-card', {
                     gap: '0',                   // gap between form rows
                     fontSize: '16px',           // base font size for card
                     fontFamily: 'Inter, sans-serif',
-                    color: '#4B5563',           // base text colour
+                    color: '#4B5563',           // base text color
                 },
                 // ── All input fields ─────────────────────────────────────
                 input: {
@@ -152,7 +152,7 @@ const cardComponent = sdk.components.create('fsc-card', {
                     fontSize: '16px',
                     fontFamily: 'Inter, sans-serif',
                     height: '48px',             // input field height
-                    outlineColor: '#bfdbfe',    // focus ring colour
+                    outlineColor: '#bfdbfe',    // focus ring color
                     placeholderColor: '#7D8A9B',
                     errorBorderColor: '#e53935',
                     padding: '0 16px',
@@ -363,8 +363,8 @@ sdk.checkout('<SESSION_ID>', {
 
 | Property | Type | Description |
 |---|---|---|
-| `backgroundColor` | `string` | Panel background colour |
-| `borderColor` | `string` | Panel border colour |
+| `backgroundColor` | `string` | Panel background color |
+| `borderColor` | `string` | Panel border color |
 | `borderWidth` | `string` | Panel border width (e.g. `'1px'`) |
 | `borderRadius` | `string` | Panel corner radius |
 | `border` | `string` | Shorthand border (e.g. `'2px solid navy'`); overrides `borderColor` and `borderWidth` when set |
@@ -375,7 +375,7 @@ sdk.checkout('<SESSION_ID>', {
 | `gap` | `string` | Gap between form rows |
 | `fontSize` | `string` | Base font size for the card |
 | `fontFamily` | `string` | Base font family for the card |
-| `color` | `string` | Base text colour |
+| `color` | `string` | Base text color |
 
 > **Hover styles** — use `state.hover.card.backgroundColor` and `state.hover.card.borderColor` instead of the legacy `backgroundColorOnHover` / `borderColorOnHover` shortcuts.
 
@@ -385,8 +385,8 @@ Applied when any input inside the card has keyboard focus (`:host(:focus-within)
 
 | Category | Property | Description |
 |---|---|---|
-| `card` | `borderColor` | Panel border colour when focused |
-| `input` | `borderColor` | Input field border colour when focused |
+| `card` | `borderColor` | Panel border color when focused |
+| `input` | `borderColor` | Input field border color when focused |
 
 ### Input fields (`state.default.input`, `.cardNumber`, `.expiry`, `.cvv`)
 
@@ -394,29 +394,29 @@ Use `input` to style all fields at once. Use `cardNumber`, `expiry`, or `cvv` to
 
 > **`backgroundColor` on inputs** — always applied as `background-color` (not the `background` shorthand).
 > This is intentional: the card number field uses `background-image` for the brand badge (Visa, Mastercard, etc.).
-> Using the shorthand would erase the logo when the merchant sets a background colour.
+> Using the shorthand would erase the logo when the merchant sets a background color.
 > Both `input[part="input"]` and `#cardNumber` receive the rule so the ID-specificity brand rules cannot block it.
 
 | Property | Type | Description |
 |---|---|---|
-| `backgroundColor` | `string` | Input background colour |
-| `borderColor` | `string` | Input border colour |
+| `backgroundColor` | `string` | Input background color |
+| `borderColor` | `string` | Input border color |
 | `borderRadius` | `string` | Input corner radius |
-| `color` | `string` | Input text colour |
+| `color` | `string` | Input text color |
 | `fontSize` | `string` | Input font size |
 | `fontFamily` | `string` | Input font family |
 | `height` | `string` | Input field height (default `'48px'`) |
 | `padding` | `string` | Input inner padding (default `'0 16px'`) |
 | `margin` | `string` | Input outer margin — routed through `--fsc-input-margin`; grid layout deducts this from available space so inputs never overflow the card |
-| `outlineColor` | `string` | Focus ring colour |
-| `placeholderColor` | `string` | Placeholder text colour |
-| `errorBorderColor` | `string` | Border colour in error state |
+| `outlineColor` | `string` | Focus ring color |
+| `placeholderColor` | `string` | Placeholder text color |
+| `errorBorderColor` | `string` | Border color in error state |
 
 ### "Use a different card" link (`state.default.changeCard`)
 
 | Property | Type | Description |
 |---|---|---|
-| `color` | `string` | Link text colour |
+| `color` | `string` | Link text color |
 | `fontSize` | `string` | Link font size |
 | `fontFamily` | `string` | Link font family |
 
@@ -424,7 +424,7 @@ Use `input` to style all fields at once. Use `cardNumber`, `expiry`, or `cvv` to
 
 | Property | Type | Description |
 |---|---|---|
-| `color` | `string` | Error message text colour |
+| `color` | `string` | Error message text color |
 | `fontSize` | `string` | Error message font size |
 | `fontWeight` | `string` | Error message font weight |
 | `backgroundColor` | `string` | Error message background |
@@ -435,10 +435,10 @@ Styles are applied directly as CSS on the `<button>` element. Any valid CSS prop
 
 | Property | Type | Default | Description |
 |---|---|---|---|
-| `backgroundColor` | `string` | `#008aff` | Button background colour |
-| `color` | `string` | `#ffffff` | Button label colour |
+| `backgroundColor` | `string` | `#008aff` | Button background color |
+| `color` | `string` | `#ffffff` | Button label color |
 | `border` | `string` | `solid 0px` | Shorthand border (e.g. `'2px solid red'`) |
-| `borderColor` | `string` | `#008aff` | Button border colour |
+| `borderColor` | `string` | `#008aff` | Button border color |
 | `borderRadius` | `string` | `8px` | Button corner radius |
 | `padding` | `string` | `28px` | Button inner padding |
 | `margin` | `string` | `0px` | Button outer margin |
@@ -469,7 +469,7 @@ Styles applied to the `<span>` inside the button (the label text).
 
 | Property | Type | Description |
 |---|---|---|
-| `color` | `string` | Text colour |
+| `color` | `string` | Text color |
 | `fontSize` | `string` | Text font size |
 | `fontWeight` | `string` | Text font weight |
 | `fontFamily` | `string` | Text font family |
@@ -483,4 +483,4 @@ Styles applied to the loading spinner element.
 | `width` | `string` | Spinner size (width) |
 | `height` | `string` | Spinner size (height) |
 | `border` | `string` | Spinner ring border (e.g. `'2px solid currentColor'`) |
-| `color` | `string` | Spinner colour via `currentColor` |
+| `color` | `string` | Spinner color via `currentColor` |
