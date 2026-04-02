@@ -22,7 +22,7 @@ Choose the installation method that fits your project:
 
 ---
 
-### Option A — Package manager (recommended)
+### Option A — Package manager
 
 ```bash
 npm install @fastspring/checkout-sdk
