@@ -38,7 +38,7 @@ import { FastSpring } from '@fastspring/checkout-sdk';
 
 ### Option B — Script tag (no build tools required)
 
-Add the SDK script tag in your HTML, just before the closing `</body>` tag.
+Add the SDK script tag in your HTML, just before the closing `</head>` tag.
 
 **Production (CDN):**
 ```html
