@@ -474,13 +474,3 @@ Styles applied to the `<span>` inside the button (the label text).
 | `fontWeight` | `string` | Text font weight |
 | `fontFamily` | `string` | Text font family |
 
-### Pay button spinner (`state.default.spinner`)
-
-Styles applied to the loading spinner element.
-
-| Property | Type | Description |
-|---|---|---|
-| `width` | `string` | Spinner size (width) |
-| `height` | `string` | Spinner size (height) |
-| `border` | `string` | Spinner ring border (e.g. `'2px solid currentColor'`) |
-| `color` | `string` | Spinner color via `currentColor` |
