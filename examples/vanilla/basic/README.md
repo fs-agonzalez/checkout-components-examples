@@ -16,9 +16,29 @@ The integration has five steps:
 
 ---
 
-## Step 1 — Include the SDK from CDN
+## Step 1 — Include the SDK
 
-Add the SDK script tag in your HTML, just before the closing `</body>` tag:
+Choose the installation method that fits your project:
+
+---
+
+### Option A — Package manager (recommended)
+
+```bash
+npm install @fastspring/checkout-sdk
+```
+
+Then import in your JavaScript/TypeScript:
+
+```js
+import { FastSpring } from '@fastspring/checkout-sdk';
+```
+
+---
+
+### Option B — Script tag (no build tools required)
+
+Add the SDK script tag in your HTML, just before the closing `</body>` tag.
 
 **Production (CDN):**
 ```html
