@@ -62,12 +62,25 @@ Add the SDK script tag in your HTML, just before the closing `</head>` tag.
 
 Call `FastSpring.init()` once the SDK script has loaded. It returns an `sdk` instance used in all subsequent steps.
 
+> 
+> The `checkoutUrl` can point to either a **popup** or an **embedded** storefront.
+
+> **Local development — allowlist your origin**
+> FastSpring storefronts restrict which domains may embed the checkout iframe. When testing locally, you must **allowlist** your local origin in the Stoefront/Checkout Whitelist settings:
+>
+> ```
+> http://localhost:5173
+> ```
+>
+> Without this, the checkout iframe will be blocked by the storefront's frame-ancestors policy.
+
 ```html
 <script>
     const sdk = FastSpring.init({
 
         // ── Required ──────────────────────────────────────────────────────
         checkoutUrl: 'https://<your-store>.onfastspring.com/<your-storefront>',
+
 
         // ── Optional ──────────────────────────────────────────────────────
         env: 'qa2',       // Omit (or remove) for production. Use 'qa2' for QA.
