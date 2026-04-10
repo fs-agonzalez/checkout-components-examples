@@ -1,33 +1,71 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>FastSpring SDK — Vanilla Example</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-gray-100 min-h-screen py-8">
     <div class="max-w-6xl mx-auto px-4">
         <h1 class="text-3xl font-bold text-gray-900 mb-8 text-center">FastSpring Checkout — Vanilla JS</h1>
         <div class="bg-white rounded-lg shadow-md p-6 mb-6">
             <div class="flex gap-6 items-start">
                 <!-- Session Input + Checkout Button -->
-                <div class="flex-shrink-0" style="width: 450px;">
+                <div class="flex-shrink-0" style="width: 480px;">
                     <h2 class="text-xl font-semibold text-gray-800 mb-4">Enter Session ID and Checkout</h2>
 
                     <div class="mb-4">
                         <label for="session-id-input" class="block text-sm font-medium text-gray-700 mb-2">Session ID:</label>
-                        <input
-                            type="text"
-                            id="session-id-input"
-                            value=""
-                            placeholder="Enter session ID"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        />
+                        <input type="text" id="session-id-input" value="" placeholder="Enter session ID"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
                     </div>
 
-                    <button
-                        onclick="checkout()"
-                        class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                    >
+                    <!-- Card section -->
+                    <div class="mb-4 border border-gray-200 rounded-lg p-4">
+                        <h3 class="text-sm font-bold text-gray-800 mb-3 uppercase tracking-wide">Card</h3>
+
+                        <div class="mb-3 flex items-center gap-3">
+                            <label class="text-sm font-medium text-gray-700 whitespace-nowrap" style="width:140px;">Background color:</label>
+                            <input type="color" id="bg-color-picker" value="#ffffff"
+                                oninput="document.getElementById('bg-color-input').value = this.value"
+                                class="w-8 h-8 border border-gray-300 rounded cursor-pointer p-0.5 flex-shrink-0" />
+                            <input type="text" id="bg-color-input" value="" maxlength="7" placeholder=""
+                                oninput="if(/^#[0-9a-fA-F]{6}$/.test(this.value)) document.getElementById('bg-color-picker').value = this.value"
+                                class="w-28 px-3 py-1.5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 font-mono text-sm" />
+                        </div>
+
+                        <div class="mb-3 flex items-center gap-3">
+                            <label class="text-sm font-medium text-gray-700 whitespace-nowrap" style="width:140px;">Border color:</label>
+                            <input type="color" id="border-color-picker" value="#ffffff"
+                                oninput="document.getElementById('border-color-input').value = this.value"
+                                class="w-8 h-8 border border-gray-300 rounded cursor-pointer p-0.5 flex-shrink-0" />
+                            <input type="text" id="border-color-input" value="" maxlength="7" placeholder=""
+                                oninput="if(/^#[0-9a-fA-F]{6}$/.test(this.value)) document.getElementById('border-color-picker').value = this.value"
+                                class="w-28 px-3 py-1.5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 font-mono text-sm" />
+                        </div>
+
+                        <div class="mb-3 flex items-center gap-3">
+                            <label class="text-sm font-medium text-gray-700 whitespace-nowrap" style="width:140px;">Border width:</label>
+                            <input type="text" id="border-width-input" value="" placeholder=""
+                                class="w-28 px-3 py-1.5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 font-mono text-sm" />
+                        </div>
+
+                        <div class="mb-3 flex items-center gap-3">
+                            <label class="text-sm font-medium text-gray-700 whitespace-nowrap" style="width:140px;">Border radius:</label>
+                            <input type="text" id="border-radius-input" value="" placeholder=""
+                                class="w-28 px-3 py-1.5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 font-mono text-sm" />
+                        </div>
+
+                        <div class="flex items-center gap-3">
+                            <label class="text-sm font-medium text-gray-700 whitespace-nowrap" style="width:140px;">Padding:</label>
+                            <input type="text" id="padding-input" value="" placeholder=""
+                                class="w-28 px-3 py-1.5 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 font-mono text-sm" />
+                        </div>
+                    </div>
+
+                    <button onclick="checkout()"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
                         Checkout
                     </button>
                 </div>
@@ -43,38 +81,13 @@
         </div>
     </div>
 
-    <!-- FastSpring SDK (IIFE build) -->
-    <!-- TODO: Replace with CDN URLs once published:
-         Runtime:  https://d1f8f9xcsvx3ha.cloudfront.net/checkout-sdk/0.0.3-beta.1/fastspring-sdk.iife.js / https://cdn.onfastspring.com/checkout-sdk/0.0.3-beta.1/fastspring-sdk.iife.js
-         Types:    https://d1f8f9xcsvx3ha.cloudfront.net/checkout-sdk/0.0.3-beta.1/fastspring-sdk.iife.d.ts
-         Download fastspring-sdk.iife.d.ts next to this file to get VS Code intellisense. -->
-    <!-- <script src="http://localhost:5173/dist/fastspring-sdk.iife.js"></script> -->
-
-
-
-    <!--
-     ** Step 1 - Include script ** 
-     -->
     <script src="https://d1f8f9xcsvx3ha.cloudfront.net/checkout-sdk/0.0.3-beta.1/fastspring-sdk.iife.js"></script>
 
-
-    <!--
-     ** Step 2 - Call Init ** 
-     -->
     <script>
         const sdk = FastSpring.init({
-            //checkoutUrl: 'https://sureshcompany.qa2.onfastspring.com/popup-AAA-suresh-test',
-            //checkoutUrl: 'https://localhost:8443/bm-store/suresh/popup-AATestOne',
-            //env: 'local',
-            checkoutUrl: 'https://sureshcompany.qa2.onfastspring.com/popup-AAA-suresh-test',
-            env:"qa2", //optional --
-             //env: 'qa2',      // omit for production
-            // debug: true,     // show built-in success/failure dialogs during testing
-            globalStyles: {
-                // color: '#1e293b',
-                // fontFamily: 'Inter, sans-serif',
-                // fontSize: '14px',
-            },
+            checkoutUrl: 'https://netstoreadriana.qa2.onfastspring.com/popup-AAdryDark1',
+            env: "qa2",
+            globalStyles: {},
             onOrderCompletion: (data) => {
                 console.log('Order completed!', data);
             },
@@ -86,51 +99,12 @@
             },
         });
 
-        // Pre-fill the session ID input with any session ID stored from a previous visit
         const storedSessionId = sdk.getStoredSessionId();
         if (storedSessionId) {
             document.getElementById('session-id-input').value = storedSessionId;
         }
 
-        
-        //
-        // ** Step 3 - Create and Mount card component ** 
-        //
-        const cardComponent = sdk.components.create('fsc-card', {
-            style: {
-                state: {
-                    default: {
-                        card: {
-                            backgroundColor: '#fff',
-                            borderColor: 'blue',
-                            borderRadius: '8px'
-                        },
-                        input: {
-                            borderColor: '#cbd5e1',
-                            borderRadius: '6px',
-                            fontSize: '14px',
-                            fontFamily: 'Inter, sans-serif',
-                            color: '#1e293b',
-                        },
-                    },
-                    hover: {
-                        card: {
-                            borderColor: '#94a3b8',
-                        },
-                    },
-                    error: {
-                        card: { borderColor: '#ef4444' },
-                        input: { borderColor: '#ef4444', color: '#b91c1c' },
-                    },
-                },
-            },
-        });
-        cardComponent.mount('#card-element');
-
-
-        //
-        // ** Step 4 - Create and Mount Pay button component ** 
-        //
+        let cardComponent = null;
 
         const payButtonComponent = sdk.components.create('fsc-pay-button', {
             style: {
@@ -152,18 +126,43 @@
         });
         payButtonComponent.mount('#pay-button-element');
 
-
         function checkout() {
             const sessionId = document.getElementById('session-id-input').value.trim();
 
-            if (!sessionId) {
-                alert('Please enter a session ID');
-                return;
-            }
+            // Only include a property if the user actually typed something
+            const cardStyles = {};
+            const backgroundColor = document.getElementById('bg-color-input').value.trim();
+            const borderColor = document.getElementById('border-color-input').value.trim();
+            const borderWidth = document.getElementById('border-width-input').value.trim();
+            const borderRadius = document.getElementById('border-radius-input').value.trim();
+            const padding = document.getElementById('padding-input').value.trim();
+
+            if (backgroundColor) cardStyles.backgroundColor = backgroundColor;
+            if (borderColor)     cardStyles.borderColor = borderColor;
+            if (borderWidth)     cardStyles.borderWidth = borderWidth;
+            if (borderRadius)    cardStyles.borderRadius = borderRadius;
+            if (padding)         cardStyles.padding = padding;
 
             sdk.checkout(sessionId, {
                 onSuccess: () => {
                     console.log('Session loaded successfully:', sessionId);
+
+                    if (cardComponent) {
+                        try { cardComponent.unmount(); } catch(e) {}
+                        document.getElementById('card-element').innerHTML = '';
+                    }
+
+                    cardComponent = sdk.components.create('fsc-card', {
+                        style: {
+                            state: {
+                                default: {
+                                    card: cardStyles,
+                                },
+                            },
+                        },
+                    });
+
+                    cardComponent.mount('#card-element');
                 },
                 onError: (error) => {
                     console.error('Session load failed:', error);
@@ -172,4 +171,5 @@
         }
     </script>
 </body>
+
 </html>

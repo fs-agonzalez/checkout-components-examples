@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>FastSpring SDK — Vanilla Example</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen py-8">
+    <div class="max-w-6xl mx-auto px-4">
+        <h1 class="text-3xl font-bold text-gray-900 mb-8 text-center">FastSpring Checkout — Vanilla JS</h1>
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div class="flex gap-6 items-start">
+                <!-- Session Input + Checkout Button -->
+                <div class="flex-shrink-0" style="width: 450px;">
+                    <h2 class="text-xl font-semibold text-gray-800 mb-4">Enter Session ID and Checkout</h2>
+
+                    <div class="mb-4">
+                        <label for="session-id-input" class="block text-sm font-medium text-gray-700 mb-2">Session
+                            ID:</label>
+                        <input type="text" id="session-id-input" value="" placeholder="Enter session ID"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500" />
+                    </div>
+
+                    <button onclick="checkout()"
+                        class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                        Checkout
+                    </button>
+                </div>
+
+                <!-- Payment Components -->
+                <div class="flex-1">
+                    <div id="payment-form-container">
+                        <div id="card-element" class="mb-6"></div>
+                        <div id="pay-button-element" class="mb-6 p-4 rounded-lg shadow-sm mx-auto"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FastSpring SDK (IIFE build) -->
+    <!-- TODO: Replace with CDN URLs once published:
+         Runtime:  https://d1f8f9xcsvx3ha.cloudfront.net/checkout-sdk/0.0.3-beta.1/fastspring-sdk.iife.js / https://cdn.onfastspring.com/checkout-sdk/0.0.3-beta.1/fastspring-sdk.iife.js
+         Types:    https://d1f8f9xcsvx3ha.cloudfront.net/checkout-sdk/0.0.3-beta.1/fastspring-sdk.iife.d.ts
+         Download fastspring-sdk.iife.d.ts next to this file to get VS Code intellisense. -->
+    <!-- <script src="http://localhost:5173/dist/fastspring-sdk.iife.js"></script> -->
+
+
+
+    <!--
+     ** Step 1 - Include script ** 
+     -->
+    <script src="https://d1f8f9xcsvx3ha.cloudfront.net/checkout-sdk/0.0.3-beta.1/fastspring-sdk.iife.js"></script>
+
+
+    <!--
+     ** Step 2 - Call Init ** 
+     -->
+    <script>
+        const sdk = FastSpring.init({
+            //checkoutUrl: 'https://sureshcompany.qa2.onfastspring.com/popup-AAA-suresh-test',
+            //checkoutUrl: 'https://localhost:8443/bm-store/suresh/popup-AATestOne',
+            //env: 'local',
+            checkoutUrl: 'https://netstoreadriana.qa2.onfastspring.com/popup-AAdryDark1',
+            env: "qa2", //optional --
+            //env: 'qa2',      // omit for production
+            // debug: true,     // show built-in success/failure dialogs during testing
+            globalStyles: {
+                // color: '#1e293b',
+                // fontFamily: 'Inter, sans-serif',
+                // fontSize: '14px',
+            },
+            onOrderCompletion: (data) => {
+                console.log('Order completed!', data);
+            },
+            onPaymentError: (error) => {
+                console.error('Payment failed:', error);
+            },
+            onSessionData: (data) => {
+                console.log('Session data ready:', data);
+            },
+        });
+
+        // Pre-fill the session ID input with any session ID stored from a previous visit
+        const storedSessionId = sdk.getStoredSessionId();
+        if (storedSessionId) {
+            document.getElementById('session-id-input').value = storedSessionId;
+        }
+
+
+        //
+        // ** Step 3 - Create and Mount card component ** 
+        //
+        const cardComponent = sdk.components.create('fsc-card', {
+
+
+            style: {
+                state: {
+                    default: {
+                        card: {
+                            backgroundColor: '#000000',
+
+
+
+                        },
+
+
+
+
+                    },
+
+                },
+            },
+
+
+        }
+        );
+
+
+
+
+        cardComponent.mount('#card-element');
+
+
+        //
+        // ** Step 4 - Create and Mount Pay button component ** 
+        //
+
+        const payButtonComponent = sdk.components.create('fsc-pay-button', {
+            style: {
+                state: {
+                    default: {
+                        button: {
+                            borderRadius: '8px',
+                            padding: '14px 28px',
+                            fontFamily: 'Inter, sans-serif',
+                        },
+                    },
+                    hover: {
+                        button: {
+                            opacity: '0.9',
+                        },
+                    },
+                },
+            },
+        });
+        payButtonComponent.mount('#pay-button-element');
+
+
+        function checkout() {
+            const sessionId = document.getElementById('session-id-input').value.trim();
+
+            if (!sessionId) {
+                alert('Please enter a session ID');
+                return;
+            }
+
+            sdk.checkout(sessionId, {
+                onSuccess: () => {
+                    console.log('Session loaded successfully:', sessionId);
+                },
+                onError: (error) => {
+                    console.error('Session load failed:', error);
+                },
+            });
+        }
+    </script>
+</body>
+
+</html>
